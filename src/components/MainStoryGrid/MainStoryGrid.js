@@ -8,7 +8,7 @@ import MainStory from "../MainStory";
 import SecondaryStory from "../SecondaryStory";
 import OpinionStory from "../OpinionStory";
 import Advertisement from "../Advertisement";
-import { COLORS } from "../../constants";
+import { COLORS, QUERIES } from "../../constants";
 
 const MainStoryGrid = () => {
   return (
@@ -27,11 +27,11 @@ const MainStoryGrid = () => {
 
       <OpinionSection>
         <SectionTitle>Opinion</SectionTitle>
-        <StoryList>
+        <OpinionList>
           {OPINION_STORIES.map((story, index) => (
             <OpinionStory key={story.id} {...story} />
           ))}
-        </StoryList>
+        </OpinionList>
       </OpinionSection>
 
       <AdvertisementSection>
@@ -50,10 +50,32 @@ const Wrapper = styled.div`
     "advertisement";
   gap: 48px;
   margin-bottom: 48px;
+
+  @media ${QUERIES.tabletOnly} {
+    gap: 16px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-areas:
+      "main-story secondary-stories"
+      "advertisement advertisement"
+      "opinion-stories opinion-stories";
+  }
+
+  @media ${QUERIES.laptopAndUp} {
+    gap: 16px;
+    grid-template-columns: 470px 3fr 2fr;
+    grid-template-areas:
+      "main-story secondary-stories opinion-stories"
+      "main-story advertisement advertisement";
+  }
 `;
 
 const MainStorySection = styled.section`
   grid-area: main-story;
+
+  @media ${QUERIES.tabletAndUp} {
+    padding-right: 16px;
+    border-right: 1px solid ${COLORS.gray[300]};
+  }
 `;
 
 const SecondaryStorySection = styled.section`
@@ -71,12 +93,44 @@ const StoryList = styled.div`
   }
 `;
 
+const OpinionList = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  > * + * {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid ${COLORS.gray[300]};
+  }
+
+  @media ${QUERIES.tabletOnly} {
+    flex-direction: row;
+    gap: 32px;
+
+    > * + * {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+  }
+`;
+
 const OpinionSection = styled.section`
   grid-area: opinion-stories;
+
+  @media ${QUERIES.laptopAndUp} {
+    padding-left: 16px;
+    border-left: 1px solid ${COLORS.gray[300]};
+  }
 `;
 
 const AdvertisementSection = styled.section`
   grid-area: advertisement;
+
+  @media ${QUERIES.laptopAndUp} {
+    padding-top: 16px;
+    border-top: 1px solid ${COLORS.gray[300]};
+  }
 `;
 
 export default MainStoryGrid;
